@@ -10,6 +10,7 @@ $iconMenuBaru = 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-
 $iconUnitKerja = 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2M5 21h2m0 0h10M5 21v-4a1 1 0 011-1h1m8 5v-4a1 1 0 00-1-1h-1m-4-3h.01M9 9h.01M9 13h.01M13 9h.01';
 $iconPengguna = 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z';
 $iconMasterPegawai = 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z';
+$iconRekapitulasi = 'M9 17v-2a4 4 0 014-4h4M9 17H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v4M9 17l3 3m0 0l3-3m-3 3V9';
 
 // Setiap elemen: item tunggal ({route,label,icon}) atau grup ({label, items:[...]}).
 // Item di dalam grup bisa diberi 'admin' => true supaya hanya tampil untuk admin,
@@ -25,6 +26,7 @@ $navSections = [
             ['route' => 'data.pegawai', 'label' => 'Pegawai Simabs', 'icon' => $iconPegawai],
             ['route' => 'summary-cuti', 'label' => 'Summary Cuti', 'icon' => $iconSummary],
             ['route' => 'cari-cuti', 'label' => 'Cari Cuti', 'icon' => $iconCariCuti],
+            ['route' => 'rekapitulasi', 'label' => 'Rekapitulasi', 'icon' => $iconRekapitulasi],
         ],
     ],
     [
@@ -48,7 +50,7 @@ $navSections = [
 @endphp
 
 <!-- Desktop sidebar -->
-<aside class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-white border-r border-sky-100">
+<aside class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-white border-r border-sky-100 print:hidden">
     <div class="flex items-center px-5 h-16 border-b border-sky-100">
         <img src="{{ asset('images/brandapps.png') }}" alt="SICKEP - Sistem Informasi Cuti Kepegawaian" class="h-11 w-auto object-contain">
     </div>
@@ -84,7 +86,7 @@ $navSections = [
 </aside>
 
 <!-- Mobile sidebar (slide-over) -->
-<div x-show="sidebarOpen" x-cloak class="lg:hidden fixed inset-0 z-40">
+<div x-show="sidebarOpen" x-cloak class="lg:hidden print:hidden fixed inset-0 z-40">
     <div class="fixed inset-0 bg-slate-900/50" @click="sidebarOpen = false"></div>
 
     <div class="relative flex flex-col w-64 h-full bg-white shadow-xl"

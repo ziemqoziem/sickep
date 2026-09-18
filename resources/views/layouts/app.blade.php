@@ -21,9 +21,9 @@
         <div x-data="{ sidebarOpen: false }" class="min-h-screen bg-sky-50/40">
             @include('layouts.sidebar')
 
-            <div class="lg:pl-64 flex flex-col min-h-screen">
+            <div class="lg:pl-64 print:pl-0 flex flex-col min-h-screen">
                 <!-- Mobile top bar -->
-                <div class="lg:hidden sticky top-0 z-30 flex items-center gap-3 bg-white border-b border-sky-100 px-4 h-16">
+                <div class="lg:hidden print:hidden sticky top-0 z-30 flex items-center gap-3 bg-white border-b border-sky-100 px-4 h-16">
                     <button @click="sidebarOpen = true" class="text-slate-500 hover:text-sky-700">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -34,7 +34,7 @@
 
                 <!-- Page Heading -->
                 @isset($header)
-                    <header class="bg-white border-b border-sky-100">
+                    <header class="bg-white border-b border-sky-100 print:hidden">
                         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                             {{ $header }}
                         </div>

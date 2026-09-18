@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Cuti\CariCutiController;
+use App\Http\Controllers\Cuti\RekapitulasiController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Data\OpdController;
 use App\Http\Controllers\Data\PegawaiActionController;
@@ -34,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/data/opd', [OpdController::class, 'index'])->name('data.opd');
     Route::get('/data/pegawai', [PegawaiController::class, 'index'])->name('data.pegawai');
     Route::get('/cari-cuti', [CariCutiController::class, 'index'])->name('cari-cuti');
+    Route::get('/rekapitulasi', [RekapitulasiController::class, 'index'])->name('rekapitulasi');
+    Route::get('/rekapitulasi/detail', [RekapitulasiController::class, 'detail'])->name('rekapitulasi.detail');
 
     Route::prefix('cuti-baru')->name('cuti-baru.')->group(function () {
         Route::get('/menu-1', fn () => view('placeholder', ['title' => 'Menu 1']))->name('menu1');
