@@ -1,0 +1,83 @@
+<?php
+
+use App\Http\Controllers\Cuti\CariCutiController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Data\OpdController;
+use App\Http\Controllers\Data\PegawaiActionController;
+use App\Http\Controllers\Data\PegawaiController;
+use App\Http\Controllers\Master\MasterPegawaiActionController;
+use App\Http\Controllers\Master\MasterPegawaiController;
+use App\Http\Controllers\Master\PenggunaController;
+use App\Http\Controllers\Master\UnitKerjaController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Settings\MdbConnectionController;
+use App\Http\Controllers\Sync\SyncDataController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// "Dashboard" sengaja masih kosong (placeholder) -- konten KPI cuti yang
+// dulu ada di sini sekarang di /summary-cuti (menu "Summary Cuti").
+Route::get('/dashboard', fn () => view('placeholder', ['title' => 'Dashboard']))
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/summary-cuti', [DashboardController::class, 'index'])->name('summary-cuti');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
+
+    Route::get('/data/opd', [OpdController::class, 'index'])->name('data.opd');
+    Route::get('/data/pegawai', [PegawaiController::class, 'index'])->name('data.pegawai');
+    Route::get('/cari-cuti', [CariCutiController::class, 'index'])->name('cari-cuti');
+
+    Route::prefix('cuti-baru')->name('cuti-baru.')->group(function () {
+        Route::get('/menu-1', fn () => view('placeholder', ['title' => 'Menu 1']))->name('menu1');
+        Route::get('/menu-2', fn () => view('placeholder', ['title' => 'Menu 2']))->name('menu2');
+        Route::get('/menu-3', fn () => view('placeholder', ['title' => 'Menu 3']))->name('menu3');
+        Route::get('/menu-4', fn () => view('placeholder', ['title' => 'Menu 4']))->name('menu4');
+    });
+});
+
+Route::middleware(['auth', 'admin'])->prefix('settings')->name('settings.')->group(function () {
+    Route::get('/koneksi', [MdbConnectionController::class, 'edit'])->name('koneksi');
+    Route::put('/koneksi', [MdbConnectionController::class, 'update'])->name('koneksi.update');
+    Route::post('/koneksi/test', [MdbConnectionController::class, 'test'])->name('koneksi.test');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/sync-data', [SyncDataController::class, 'index'])->name('sync-data');
+    Route::post('/sync-data/{entity}', [SyncDataController::class, 'run'])->name('sync-data.run');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('pegawai')->name('pegawai.')->group(function () {
+    Route::post('/{nip}/nonaktifkan', [PegawaiActionController::class, 'nonaktifkan'])->name('nonaktifkan');
+    Route::post('/{nip}/aktifkan', [PegawaiActionController::class, 'aktifkan'])->name('aktifkan');
+    Route::post('/{nip}/mutasi', [PegawaiActionController::class, 'mutasi'])->name('mutasi');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('master')->name('master.')->group(function () {
+    Route::get('/unit-kerja', [UnitKerjaController::class, 'index'])->name('unit-kerja');
+    Route::post('/unit-kerja', [UnitKerjaController::class, 'store'])->name('unit-kerja.store');
+    Route::put('/unit-kerja/{unitKerja}', [UnitKerjaController::class, 'update'])->name('unit-kerja.update');
+    Route::delete('/unit-kerja/{unitKerja}', [UnitKerjaController::class, 'destroy'])->name('unit-kerja.destroy');
+
+    Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna');
+    Route::post('/pengguna', [PenggunaController::class, 'store'])->name('pengguna.store');
+    Route::put('/pengguna/{pengguna}', [PenggunaController::class, 'update'])->name('pengguna.update');
+    Route::delete('/pengguna/{pengguna}', [PenggunaController::class, 'destroy'])->name('pengguna.destroy');
+
+    Route::get('/pegawai', [MasterPegawaiController::class, 'index'])->name('pegawai');
+    Route::get('/pegawai-search', [MasterPegawaiController::class, 'search'])->name('pegawai.search');
+    Route::post('/pegawai', [MasterPegawaiController::class, 'store'])->name('pegawai.store');
+    Route::put('/pegawai/{pegawai}', [MasterPegawaiController::class, 'update'])->name('pegawai.update');
+    Route::post('/pegawai/{pegawai}/nonaktifkan', [MasterPegawaiActionController::class, 'nonaktifkan'])->name('pegawai.nonaktifkan');
+    Route::post('/pegawai/{pegawai}/aktifkan', [MasterPegawaiActionController::class, 'aktifkan'])->name('pegawai.aktifkan');
+    Route::post('/pegawai/{pegawai}/mutasi', [MasterPegawaiActionController::class, 'mutasi'])->name('pegawai.mutasi');
+});
+
+require __DIR__.'/auth.php';
