@@ -1,59 +1,143 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SICKEP — Sistem Informasi Cuti Kepegawaian
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web internal Pemerintah Kabupaten Klaten untuk memantau, mengelola, dan
+menganalisis data kepegawaian dan riwayat cuti pegawai secara terpusat. Dibangun
+dengan Laravel 12, dan menyinkronkan data dari sumber legacy **SIMABSARA2017**
+(SQL Server) melalui ODBC ke database lokal (MySQL).
 
-## About Laravel
+## Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Sinkronisasi data sumber** — menarik data OPD, unit kerja, pegawai, kode
+  cuti, dan riwayat cuti dari database SQL Server legacy (`SIMABSARA2017`) via
+  ODBC. Mendukung mode *incremental* (berbasis watermark `modidatetime`, hanya
+  untuk entitas yang mendukungnya), *full scan*, dan *prune* (hapus data lokal
+  yang sudah tidak ada di sumber, khusus riwayat cuti).
+- **Dashboard & ringkasan cuti** (`/summary-cuti`) — KPI cuti pegawai per OPD,
+  jenis cuti, dan status.
+- **Pencarian cuti** (`/cari-cuti`) — telusuri riwayat cuti berdasarkan nama,
+  NIP, unit kerja, jenis cuti, dan rentang tanggal.
+- **Data OPD & Pegawai (mirror sumber)** (`/data/opd`, `/data/pegawai`) — hasil
+  sinkronisasi dari SIMABSARA2017, read-only, dengan aksi admin untuk
+  menonaktifkan, mengaktifkan kembali, dan memutasi pegawai (tercatat di log
+  `pegawai_status_logs` / `pegawai_mutasi_logs`).
+- **Setting Master** (`/master/*`, khusus admin) — pengelolaan data mandiri
+  yang independen dari hasil sync, dengan CRUD penuh:
+  - **Unit Kerja** — kelola OPD/unit kerja, kepala unit (dengan pencarian
+    pegawai untuk auto-isi NIP/pangkat/golongan kepala).
+  - **Master Pegawai** — kelola data pegawai (NIP & nama terkunci setelah
+    dibuat), golongan/pangkat, jenis jabatan, OPD induk (dengan pencarian
+    ketik), serta aksi non-aktifkan/aktifkan dan mutasi antar-OPD (tercatat
+    di log `master_pegawai_status_logs` / `master_pegawai_mutasi_logs`).
+  - **Pengguna** — kelola akun aplikasi (nama, email, role, password), dengan
+    proteksi agar admin tidak bisa menghapus/menurunkan peran akun sendiri
+    atau menghapus admin terakhir.
+- **Setting Koneksi** (`/settings/koneksi`, khusus admin) — atur & uji koneksi
+  ke database sumber langsung dari UI.
+- **Role & akses** — dua peran (`admin`, `user`); fitur sinkronisasi dan
+  Setting Master hanya bisa diakses admin.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend:** Laravel 12, PHP 8.2+
+- **Autentikasi:** Laravel Breeze (Blade stack)
+- **Frontend:** Blade, Tailwind CSS 3, Alpine.js, Vite
+- **Database aplikasi:** MySQL (mirror data sumber + tabel master mandiri)
+- **Database sumber:** SQL Server via `pdo_odbc` (driver "ODBC Driver 11 for
+  SQL Server")
 
-## Learning Laravel
+## Instalasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```bash
+git clone https://github.com/ziemqoziem/sickep.git
+cd sickep
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+composer install
+npm install
 
-## Laravel Sponsors
+cp .env.example .env
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Atur koneksi database aplikasi (`DB_*`) dan kredensial database sumber
+(`MDB_*`) di `.env`:
 
-### Premium Partners
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sicuper
+DB_USERNAME=root
+DB_PASSWORD=
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+MDB_DRIVER="ODBC Driver 11 for SQL Server"
+MDB_HOST=
+MDB_PORT=1433
+MDB_DATABASE=
+MDB_USERNAME=
+MDB_PASSWORD=
+```
 
-## Contributing
+Jalankan migrasi (akun awal `admin@klaten.go.id` / `password123` otomatis
+dibuat) dan build asset:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan migrate
+php artisan storage:link
+npm run build   # atau `npm run dev` untuk mode pengembangan
+```
 
-## Code of Conduct
+> **Catatan:** tabel `tb_opd_aktif` dan `tb_pegawai_aktif` (dipakai oleh modul
+> Setting Master → Unit Kerja & Master Pegawai) dikelola di luar migrasi
+> Laravel pada environment ini. Di environment baru, kedua tabel ini perlu
+> disiapkan secara manual dengan struktur yang sesuai sebelum modul Setting
+> Master dapat digunakan.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Jalankan server pengembangan:
 
-## Security Vulnerabilities
+```bash
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Sinkronisasi Data
 
-## License
+Jalankan sinkronisasi manual via Artisan:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+# Sinkronisasi semua entitas (incremental)
+php artisan sync:data all
+
+# Sinkronisasi satu entitas
+php artisan sync:data riwayatcuti
+
+# Full scan (abaikan watermark)
+php artisan sync:data all --full
+
+# Full scan + hapus baris lokal yang sudah tidak ada di sumber (khusus riwayatcuti)
+php artisan sync:data riwayatcuti --prune
+```
+
+Atau lewat UI di menu **Srimanganti → Sync Data** (khusus admin), yang juga
+menampilkan status, jumlah baris, dan waktu sinkronisasi terakhir per entitas.
+
+## Struktur Direktori Penting
+
+```
+app/Http/Controllers/
+├── Data/           # Data hasil sync (read-only + aksi nonaktifkan/mutasi)
+├── Master/         # CRUD Setting Master (Unit Kerja, Pengguna, Master Pegawai)
+├── Sync/           # Kontrol sinkronisasi data sumber
+├── Settings/       # Setting koneksi database sumber
+├── Dashboard/       # Ringkasan/KPI cuti
+└── Cuti/           # Pencarian cuti
+
+app/Services/
+├── MdbConnection.php   # Koneksi ODBC ke database sumber
+└── SyncService.php     # Logika sinkronisasi per entitas
+
+app/Console/Commands/
+└── SyncDataCommand.php # Perintah `php artisan sync:data`
+```
+
+## Lisensi
+
+Proyek internal Pemerintah Kabupaten Klaten. Dibangun di atas [Laravel](https://laravel.com), open-source software berlisensi [MIT](https://opensource.org/licenses/MIT).
