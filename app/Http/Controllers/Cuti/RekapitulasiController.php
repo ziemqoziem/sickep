@@ -38,9 +38,10 @@ class RekapitulasiController extends Controller
         [$jenisCutiList, $jenisCutiLabel] = $this->jenisCutiInfo();
 
         // Diambil mentah (bukan GROUP BY di SQL) supaya "Total Hari Cuti"
-        // bisa dihitung dari hari kalender UNIK per pegawai -- SUM(lamahari)
-        // bisa menghitung ganda kalau ada baris cuti yang tumpang tindih
-        // tanggalnya untuk pegawai yang sama (mis. pengajuan yang direvisi).
+        // bisa dihitung dari HARI KALENDER UNIK -- bukan SUM(lamahari) yang
+        // cuma mengakumulasi nilai kolom (bisa salah/kosong), dan bukan pula
+        // dijumlah per pegawai (satu tanggal yang sama tetap 1 hari walau
+        // dipakai banyak pegawai). Maksimal 365/366 per tahun.
         $raw = $this->baseQuery()
             ->selectRaw('
                 COALESCE(i.ins_inscod, "") AS opd_kode,
@@ -59,13 +60,13 @@ class RekapitulasiController extends Controller
             ];
         })->sortBy('opd_nama')->values();
 
-        // Setiap nip hanya pernah masuk ke satu grup OPD (OPD pegawai bersifat
-        // tetap per baris pegawai), jadi total keseluruhan cukup dijumlah dari
-        // hasil per-OPD tanpa perlu memindai ulang seluruh baris mentah.
+        // Total hari TIDAK dijumlah dari hasil per-OPD -- tanggal yang sama
+        // bisa muncul di beberapa OPD sekaligus, jadi harus dihitung ulang
+        // dari seluruh baris mentah supaya tetap unik (maks. 365/366).
         $grand = (object) [
             'jumlah_pegawai' => $grouped->sum('jumlah_pegawai'),
             'jumlah_pengajuan' => $grouped->sum('jumlah_pengajuan'),
-            'total_hari' => $grouped->sum('total_hari'),
+            'total_hari' => $this->hitungHariUnik($raw),
         ];
 
         $rows = new LengthAwarePaginator(
@@ -153,7 +154,6 @@ class RekapitulasiController extends Controller
             'riwayat' => $riwayat,
             'riwayatSemua' => $riwayatSemua,
             'totalHari' => $this->hitungHariUnik($riwayatSemua->map(fn ($r) => (object) [
-                'nip' => $r->nip_baru ?: $r->pns_pnsnip,
                 'tanggalawalcltn' => $r->tanggalawalcltn,
                 'tanggalakhircltn' => $r->tanggalakhircltn,
             ])),
@@ -162,9 +162,11 @@ class RekapitulasiController extends Controller
     }
 
     /**
-     * Hitung jumlah hari kalender unik per pegawai (pasangan nip+tanggal
-     * tidak dihitung dua kali walau muncul di lebih dari satu baris cuti),
-     * dibatasi ke rentang tahun yang sedang direkap.
+     * Hitung jumlah HARI KALENDER UNIK yang dicakup baris-baris cuti ini,
+     * dibatasi ke rentang tahun yang sedang direkap -- jadi nilainya tidak
+     * pernah lebih dari 365 (atau 366 di tahun kabisat), berapa pun jumlah
+     * pengajuan atau pegawainya. Satu tanggal yang sama dipakai beberapa
+     * pegawai sekaligus tetap dihitung satu hari, bukan diakumulasi.
      */
     protected function hitungHariUnik(Collection $items): int
     {
@@ -184,7 +186,7 @@ class RekapitulasiController extends Controller
             }
 
             foreach (CarbonPeriod::create($mulai, $selesai) as $tanggal) {
-                $hariUnik[$item->nip.'|'.$tanggal->toDateString()] = true;
+                $hariUnik[$tanggal->toDateString()] = true;
             }
         }
 

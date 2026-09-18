@@ -48,7 +48,7 @@
                     <div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10"></div>
                     <p class="text-xs font-semibold text-violet-100 uppercase tracking-wider">Total Hari Cuti</p>
                     <p class="mt-2 text-3xl font-bold text-white">{{ number_format($totalHari) }}</p>
-                    <p class="mt-1 text-xs text-violet-100">Hari kalender unik</p>
+                    <p class="mt-1 text-xs text-violet-100">Hari unik, maks. 365/366 per tahun</p>
                 </div>
             </div>
 

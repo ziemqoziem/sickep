@@ -40,7 +40,7 @@
                     <div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10"></div>
                     <p class="text-xs font-semibold text-violet-100 uppercase tracking-wider">Total Hari Cuti</p>
                     <p class="mt-2 text-3xl font-bold text-white">{{ number_format($grand->total_hari) }}</p>
-                    <p class="mt-1 text-xs text-violet-100">Akumulasi seluruh OPD</p>
+                    <p class="mt-1 text-xs text-violet-100">Hari unik, maks. 365/366 per tahun</p>
                 </div>
             </div>
 
@@ -85,7 +85,7 @@
             </div>
 
             <p class="text-xs text-slate-400 print:hidden">
-                * Total Hari Cuti dihitung dari hari kalender unik per pegawai (tumpang tindih tanggal antar pengajuan tidak dihitung dua kali).
+                * Total Hari Cuti dihitung dari hari kalender unik (satu tanggal dihitung sekali walau dipakai beberapa pegawai/pengajuan sekaligus) -- maksimal 365 hari per tahun (366 di tahun kabisat), bukan akumulasi jumlah.
             </p>
 
             <div class="print:hidden">
