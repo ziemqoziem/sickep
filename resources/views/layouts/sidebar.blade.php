@@ -25,8 +25,8 @@ $navSections = [
             ['route' => 'data.opd', 'label' => 'OPD Simabs', 'icon' => $iconOpd],
             ['route' => 'data.pegawai', 'label' => 'Pegawai Simabs', 'icon' => $iconPegawai],
             ['route' => 'summary-cuti', 'label' => 'Summary Cuti', 'icon' => $iconSummary],
-            ['route' => 'cari-cuti', 'label' => 'Cari Cuti', 'icon' => $iconCariCuti],
-            ['route' => 'rekapitulasi', 'label' => 'Rekapitulasi', 'icon' => $iconRekapitulasi],
+            ['route' => 'rekapitulasi', 'label' => 'Rekapitulasi Cuti', 'icon' => $iconRekapitulasi],
+            ['route' => 'cari-cuti', 'label' => 'Cari Data Cuti', 'icon' => $iconCariCuti],
         ],
     ],
     [
