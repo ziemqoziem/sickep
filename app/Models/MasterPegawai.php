@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MasterPegawai extends Model
 {
@@ -21,6 +22,11 @@ class MasterPegawai extends Model
     public function opd(): BelongsTo
     {
         return $this->belongsTo(MasterOpd::class, 'opd_id');
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'pegawai_id');
     }
 
     public function namaLengkap(): string

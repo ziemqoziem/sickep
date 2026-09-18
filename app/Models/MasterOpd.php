@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MasterOpd extends Model
@@ -20,5 +21,10 @@ class MasterOpd extends Model
     public function pegawai(): HasMany
     {
         return $this->hasMany(MasterPegawai::class, 'opd_id');
+    }
+
+    public function admins(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'opd_admins', 'opd_id', 'user_id');
     }
 }

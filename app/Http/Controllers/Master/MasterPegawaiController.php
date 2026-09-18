@@ -125,6 +125,7 @@ class MasterPegawaiController extends Controller
             ->get();
 
         return response()->json($results->map(fn (MasterPegawai $p) => [
+            'id' => $p->id,
             'nip' => $p->nip,
             'nama' => $p->namaLengkap(),
             'pangkat' => $p->pangkat,

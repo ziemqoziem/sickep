@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\Cuti\CariCutiController;
+use App\Http\Controllers\Cuti\CutiPengajuanController;
+use App\Http\Controllers\Cuti\PersetujuanAkhirCutiController;
 use App\Http\Controllers\Cuti\RekapitulasiController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Data\OpdController;
 use App\Http\Controllers\Data\PegawaiActionController;
 use App\Http\Controllers\Data\PegawaiController;
+use App\Http\Controllers\Master\JenisCutiAturanController;
 use App\Http\Controllers\Master\MasterPegawaiActionController;
 use App\Http\Controllers\Master\MasterPegawaiController;
 use App\Http\Controllers\Master\PenggunaController;
@@ -39,10 +42,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/rekapitulasi/detail', [RekapitulasiController::class, 'detail'])->name('rekapitulasi.detail');
 
     Route::prefix('cuti-baru')->name('cuti-baru.')->group(function () {
-        Route::get('/menu-1', fn () => view('placeholder', ['title' => 'Menu 1']))->name('menu1');
-        Route::get('/menu-2', fn () => view('placeholder', ['title' => 'Menu 2']))->name('menu2');
-        Route::get('/menu-3', fn () => view('placeholder', ['title' => 'Menu 3']))->name('menu3');
-        Route::get('/menu-4', fn () => view('placeholder', ['title' => 'Menu 4']))->name('menu4');
+        Route::get('/ajukan', [CutiPengajuanController::class, 'create'])->name('ajukan');
+        Route::post('/ajukan', [CutiPengajuanController::class, 'store'])->name('ajukan.store');
+        Route::get('/riwayat', [CutiPengajuanController::class, 'myIndex'])->name('riwayat');
+        Route::get('/persetujuan', [CutiPengajuanController::class, 'persetujuan'])->name('persetujuan');
+        Route::post('/persetujuan/{cutiPengajuanTahap}/setujui', [CutiPengajuanController::class, 'setujui'])->name('persetujuan.setujui');
+        Route::post('/persetujuan/{cutiPengajuanTahap}/tolak', [CutiPengajuanController::class, 'tolak'])->name('persetujuan.tolak');
+
+        // Rute statis "persetujuan-akhir/..." WAJIB didaftarkan sebelum
+        // wildcard GET /{cutiPengajuan} di bawah -- kalau tidak, Laravel
+        // mencocokkan wildcard itu duluan (mengira "persetujuan-akhir"
+        // adalah sebuah ID) dan selalu menghasilkan 404.
+        Route::middleware('admin')->group(function () {
+            Route::get('/persetujuan-akhir', [PersetujuanAkhirCutiController::class, 'index'])->name('persetujuan-akhir');
+            Route::post('/persetujuan-akhir/{cutiPengajuanTahap}/setujui', [PersetujuanAkhirCutiController::class, 'setujui'])->name('persetujuan-akhir.setujui');
+            Route::post('/persetujuan-akhir/{cutiPengajuanTahap}/tolak', [PersetujuanAkhirCutiController::class, 'tolak'])->name('persetujuan-akhir.tolak');
+        });
+
+        Route::post('/{cutiPengajuan}/batalkan', [CutiPengajuanController::class, 'cancel'])->name('batalkan');
+        Route::get('/{cutiPengajuan}', [CutiPengajuanController::class, 'show'])->name('show');
     });
 });
 
@@ -81,6 +99,10 @@ Route::middleware(['auth', 'admin'])->prefix('master')->name('master.')->group(f
     Route::post('/pegawai/{pegawai}/nonaktifkan', [MasterPegawaiActionController::class, 'nonaktifkan'])->name('pegawai.nonaktifkan');
     Route::post('/pegawai/{pegawai}/aktifkan', [MasterPegawaiActionController::class, 'aktifkan'])->name('pegawai.aktifkan');
     Route::post('/pegawai/{pegawai}/mutasi', [MasterPegawaiActionController::class, 'mutasi'])->name('pegawai.mutasi');
+
+    Route::get('/jenis-cuti', [JenisCutiAturanController::class, 'index'])->name('jenis-cuti');
+    Route::post('/jenis-cuti', [JenisCutiAturanController::class, 'store'])->name('jenis-cuti.store');
+    Route::put('/jenis-cuti/{jenisCuti}', [JenisCutiAturanController::class, 'update'])->name('jenis-cuti.update');
 });
 
 require __DIR__.'/auth.php';

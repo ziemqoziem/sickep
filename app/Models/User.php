@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -24,6 +26,7 @@ class User extends Authenticatable
         'photo',
         'password',
         'role',
+        'pegawai_id',
     ];
 
     /**
@@ -52,6 +55,21 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function isOpd(): bool
+    {
+        return $this->role === 'opd';
+    }
+
+    public function pegawai(): BelongsTo
+    {
+        return $this->belongsTo(MasterPegawai::class, 'pegawai_id');
+    }
+
+    public function opdDiampu(): BelongsToMany
+    {
+        return $this->belongsToMany(MasterOpd::class, 'opd_admins', 'user_id', 'opd_id');
     }
 
     public function photoUrl(): string
