@@ -93,8 +93,9 @@ class RekapitulasiController extends Controller
     }
 
     /**
-     * Detail baris cuti (nama pegawai per pengajuan) untuk satu OPD hasil
-     * rekap, dengan filter tahun & jenis cuti yang sama.
+     * Detail cuti untuk satu OPD hasil rekap, dikelompokkan per pegawai
+     * (nip/nama) -- setiap pegawai tampil sekali dengan seluruh riwayat
+     * cutinya, bukan baris datar per pengajuan.
      */
     public function detail(Request $request): View
     {
@@ -115,34 +116,39 @@ class RekapitulasiController extends Controller
             ? (DB::table('sysdb_instansi')->where('ins_inscod', $opdKode)->value('ins_insnam') ?? $opdKode)
             : '(Tanpa OPD)';
 
-        $total = (clone $query)->count();
+        $semua = $query->get([
+            'p.pns_pnsnam', 'p.pns_ftitle', 'p.pns_rtitle', 'p.nip_baru', 'p.pns_pnsnip',
+            't.keterangancuti', 'r.tanggalawalcltn', 'r.tanggalakhircltn', 'r.lamahari',
+        ]);
 
-        $offset = ($page - 1) * static::PER_PAGE;
+        $pegawai = $semua->groupBy(fn ($r) => $r->nip_baru ?: $r->pns_pnsnip)
+            ->map(function (Collection $items) {
+                $first = $items->first();
 
-        $detail = (clone $query)
-            ->orderBy('r.tanggalawalcltn', 'desc')
-            ->limit(static::PER_PAGE)
-            ->offset($offset)
-            ->get([
-                'p.pns_pnsnam', 'p.pns_ftitle', 'p.pns_rtitle', 'p.nip_baru', 'p.pns_pnsnip',
-                't.keterangancuti', 'r.tanggalawalcltn', 'r.tanggalakhircltn', 'r.lamahari',
-            ]);
+                return (object) [
+                    'nip' => $first->nip_baru ?: $first->pns_pnsnip,
+                    'nama' => trim(($first->pns_ftitle ? $first->pns_ftitle.' ' : '').($first->pns_pnsnam ?: '(tanpa nama)').($first->pns_rtitle ? ', '.$first->pns_rtitle : '')),
+                    'jumlah_pengajuan' => $items->count(),
+                    'total_hari' => $this->hitungHariUnik($items),
+                    'riwayat' => $items->sortByDesc('tanggalawalcltn')->values(),
+                ];
+            })
+            ->sortBy('nama')
+            ->values();
 
-        $riwayat = new LengthAwarePaginator(
-            $detail,
-            $total,
+        $grand = (object) [
+            'jumlah_pegawai' => $pegawai->count(),
+            'jumlah_pengajuan' => $semua->count(),
+            'total_hari' => $this->hitungHariUnik($semua),
+        ];
+
+        $rows = new LengthAwarePaginator(
+            $pegawai->forPage($page, static::PER_PAGE)->values(),
+            $pegawai->count(),
             static::PER_PAGE,
             $page,
             ['path' => $request->url(), 'query' => $request->query()]
         );
-
-        // Cetak PDF menampilkan seluruh baris (bukan cuma satu halaman).
-        $riwayatSemua = (clone $query)
-            ->orderBy('r.tanggalawalcltn', 'desc')
-            ->get([
-                'p.pns_pnsnam', 'p.pns_ftitle', 'p.pns_rtitle', 'p.nip_baru', 'p.pns_pnsnip',
-                't.keterangancuti', 'r.tanggalawalcltn', 'r.tanggalakhircltn', 'r.lamahari',
-            ]);
 
         return view('cuti.rekapitulasi-detail', [
             'tahun' => $this->tahun,
@@ -151,12 +157,11 @@ class RekapitulasiController extends Controller
             'jenisCutiLabel' => $jenisCutiLabel,
             'opdKode' => $opdKode,
             'opdNama' => $opdNama,
-            'riwayat' => $riwayat,
-            'riwayatSemua' => $riwayatSemua,
-            'totalHari' => $this->hitungHariUnik($riwayatSemua->map(fn ($r) => (object) [
-                'tanggalawalcltn' => $r->tanggalawalcltn,
-                'tanggalakhircltn' => $r->tanggalakhircltn,
-            ])),
+            'rows' => $rows,
+            // Cetak PDF selalu menampilkan seluruh pegawai (bukan cuma satu
+            // halaman) -- pagination hanya untuk tampilan layar.
+            'allRows' => $pegawai,
+            'grand' => $grand,
             'dicetakPada' => now(),
         ]);
     }

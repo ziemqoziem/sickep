@@ -29,7 +29,7 @@
             <p class="text-sm text-slate-500 print:hidden">
                 Daftar pegawai dan riwayat cuti yang menyusun angka rekapitulasi untuk
                 <span class="font-medium text-slate-700">{{ $opdNama }}</span>,
-                tahun {{ $tahun }}, jenis cuti: {{ $jenisCutiLabel }}.
+                tahun {{ $tahun }}, jenis cuti: {{ $jenisCutiLabel }} &mdash; dikelompokkan per pegawai (NIP/nama).
             </p>
 
             {{-- Kartu ringkasan --}}
@@ -37,17 +37,17 @@
                 <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-sky-600 to-sky-700 p-6 shadow-lg shadow-sky-600/20">
                     <div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10"></div>
                     <p class="text-xs font-semibold text-sky-100 uppercase tracking-wider">Jumlah Pengajuan</p>
-                    <p class="mt-2 text-3xl font-bold text-white">{{ number_format($riwayat->total()) }}</p>
+                    <p class="mt-2 text-3xl font-bold text-white">{{ number_format($grand->jumlah_pengajuan) }}</p>
                 </div>
                 <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 shadow-lg shadow-emerald-600/20">
                     <div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10"></div>
                     <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Pegawai Unik</p>
-                    <p class="mt-2 text-3xl font-bold text-white">{{ number_format($riwayatSemua->pluck('nip_baru')->unique()->count()) }}</p>
+                    <p class="mt-2 text-3xl font-bold text-white">{{ number_format($grand->jumlah_pegawai) }}</p>
                 </div>
                 <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-500 to-violet-600 p-6 shadow-lg shadow-violet-600/20">
                     <div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10"></div>
                     <p class="text-xs font-semibold text-violet-100 uppercase tracking-wider">Total Hari Cuti</p>
-                    <p class="mt-2 text-3xl font-bold text-white">{{ number_format($totalHari) }}</p>
+                    <p class="mt-2 text-3xl font-bold text-white">{{ number_format($grand->total_hari) }}</p>
                     <p class="mt-1 text-xs text-violet-100">Hari unik, maks. 365/366 per tahun</p>
                 </div>
             </div>
@@ -70,18 +70,18 @@
                 </button>
             </div>
 
-            {{-- Tabel detail (tampilan layar, dipaginasi) --}}
+            {{-- Daftar pegawai (tampilan layar, dipaginasi) --}}
             <div class="print:hidden">
-                @include('cuti.partials.rekapitulasi-detail-table', ['riwayat' => $riwayat])
+                @include('cuti.partials.rekapitulasi-detail-table', ['rows' => $rows])
             </div>
 
             <div class="print:hidden">
-                {{ $riwayat->onEachSide(1)->links() }}
+                {{ $rows->onEachSide(1)->links() }}
             </div>
 
-            {{-- Tabel detail (versi cetak, seluruh baris tanpa paginasi) --}}
+            {{-- Daftar pegawai (versi cetak, seluruh pegawai tanpa paginasi) --}}
             <div class="hidden print:block">
-                @include('cuti.partials.rekapitulasi-detail-table', ['riwayat' => $riwayatSemua])
+                @include('cuti.partials.rekapitulasi-detail-table', ['rows' => $allRows])
             </div>
 
             <p class="hidden print:block text-[11px] text-slate-500 mt-2">
