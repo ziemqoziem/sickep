@@ -28,6 +28,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Dibaca oleh komponen <x-pengumuman-popup /> pada request
+        // berikutnya saja (flash), supaya pop up cuma muncul sekali
+        // tepat setelah login, bukan di setiap halaman.
+        $request->session()->flash('just_logged_in', true);
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

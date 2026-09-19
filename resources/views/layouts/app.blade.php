@@ -46,6 +46,8 @@
                     {{ $slot }}
                 </main>
             </div>
+
+            <x-pengumuman-popup />
         </div>
     </body>
 </html>

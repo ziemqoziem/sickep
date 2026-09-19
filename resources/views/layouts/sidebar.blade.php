@@ -16,6 +16,7 @@ $iconRiwayatCuti = 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z';
 $iconPersetujuan = 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z';
 $iconPersetujuanAkhir = 'M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0zM12 8v1m0 6v1';
 $iconLogAktivitas = 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4';
+$iconPengumuman = 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z';
 
 // Setiap elemen: item tunggal ({route,label,icon}) atau grup ({label, items:[...]}).
 // Item di dalam grup bisa diberi 'admin' => true supaya hanya tampil untuk admin,
@@ -51,6 +52,7 @@ $navSections = [
             ['route' => 'master.pegawai', 'label' => 'Master Pegawai', 'icon' => $iconMasterPegawai, 'admin' => true],
             ['route' => 'master.jenis-cuti', 'label' => 'Aturan Cuti', 'icon' => $iconAturanCuti, 'admin' => true],
             ['route' => 'master.log-aktivitas', 'label' => 'Log Aktivitas', 'icon' => $iconLogAktivitas, 'admin' => true],
+            ['route' => 'master.pengumuman', 'label' => 'Broadcast Pengumuman', 'icon' => $iconPengumuman, 'admin' => true],
         ],
     ],
 ];

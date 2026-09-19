@@ -13,6 +13,7 @@ use App\Http\Controllers\Master\ActivityLogController;
 use App\Http\Controllers\Master\JenisCutiAturanController;
 use App\Http\Controllers\Master\MasterPegawaiActionController;
 use App\Http\Controllers\Master\MasterPegawaiController;
+use App\Http\Controllers\Master\PengumumanController;
 use App\Http\Controllers\Master\PenggunaController;
 use App\Http\Controllers\Master\UnitKerjaController;
 use App\Http\Controllers\ProfileController;
@@ -111,6 +112,11 @@ Route::middleware(['auth', 'admin'])->prefix('master')->name('master.')->group(f
     Route::put('/jenis-cuti/{jenisCuti}', [JenisCutiAturanController::class, 'update'])->name('jenis-cuti.update');
 
     Route::get('/log-aktivitas', [ActivityLogController::class, 'index'])->name('log-aktivitas');
+
+    Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
+    Route::post('/pengumuman', [PengumumanController::class, 'store'])->name('pengumuman.store');
+    Route::put('/pengumuman/{pengumuman}', [PengumumanController::class, 'update'])->name('pengumuman.update');
+    Route::delete('/pengumuman/{pengumuman}', [PengumumanController::class, 'destroy'])->name('pengumuman.destroy');
 });
 
 require __DIR__.'/auth.php';
