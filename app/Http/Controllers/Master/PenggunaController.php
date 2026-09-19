@@ -44,7 +44,7 @@ class PenggunaController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        $opdList = MasterOpd::query()->orderBy('uraiunor')->get(['id', 'uraiunor', 'akronim']);
+        $opdList = MasterOpd::query()->orderBy('uraiunor')->get(['id', 'uraiunor', 'idunor']);
 
         return view('master.pengguna.index', [
             'pengguna' => $pengguna,
@@ -139,7 +139,7 @@ class PenggunaController extends Controller
 
     /**
      * Generate akun login otomatis -- username murni teks (bukan email),
-     * dari NIP pegawai (role "user") atau kode/akronim OPD (role "opd"),
+     * dari NIP pegawai (role "user") atau idunor OPD (role "opd"),
      * dengan password default "sickep". Mendukung mode single (satu
      * pegawai/OPD terpilih) maupun bulk ("semua OPD" untuk admin OPD,
      * atau "semua pegawai di satu OPD" untuk user).
@@ -199,8 +199,7 @@ class PenggunaController extends Controller
     {
         $opd = MasterOpd::findOrFail($opdId);
 
-        $kode = $opd->akronim ?: Str::of($opd->idunor)->replace('.', '');
-        $username = $this->usernameTersedia(Str::lower($kode));
+        $username = $this->usernameTersedia(Str::lower($opd->idunor));
 
         $pengguna = User::create([
             'name' => "Admin OPD - {$opd->uraiunor}",
@@ -274,7 +273,7 @@ class PenggunaController extends Controller
         $opdList = MasterOpd::query()
             ->whereDoesntHave('admins')
             ->orderBy('uraiunor')
-            ->get(['id', 'uraiunor', 'akronim', 'idunor']);
+            ->get(['id', 'uraiunor', 'idunor']);
 
         if ($opdList->isEmpty()) {
             return redirect()->route('master.pengguna', $request->only('q', 'role', 'per_page'))
@@ -286,8 +285,7 @@ class PenggunaController extends Controller
         $created = 0;
 
         foreach ($opdList as $opd) {
-            $kode = $opd->akronim ?: Str::of($opd->idunor)->replace('.', '');
-            $username = $this->usernameTersediaDalamSet(Str::lower($kode), $existing);
+            $username = $this->usernameTersediaDalamSet(Str::lower($opd->idunor), $existing);
 
             $pengguna = User::create([
                 'name' => "Admin OPD - {$opd->uraiunor}",

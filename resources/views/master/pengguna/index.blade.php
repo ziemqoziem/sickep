@@ -119,9 +119,9 @@
             }
             if (this.genMode === 'single') {
                 const opd = this.genOpd();
-                return opd && opd.akronim ? opd.akronim.toLowerCase() : null;
+                return opd && opd.idunor ? opd.idunor.toLowerCase() : null;
             }
-            return 'kode/akronim masing-masing OPD';
+            return 'idunor masing-masing OPD';
         },
         genValid() {
             if (this.genType === 'user' && this.genMode === 'single') {
@@ -202,7 +202,7 @@
                 <table class="min-w-full divide-y divide-sky-100">
                     <thead class="bg-sky-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-sky-700 uppercase tracking-wider">Nama / NIP / Jabatan</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-sky-700 uppercase tracking-wider">User</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-sky-700 uppercase tracking-wider">Nama OPD</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-sky-700 uppercase tracking-wider">Peran</th>
                             <th class="px-6 py-3 text-right text-xs font-semibold text-sky-700 uppercase tracking-wider">Aksi</th>
@@ -229,17 +229,40 @@
                                     <div class="flex items-center gap-3">
                                         <img src="{{ $row->photoUrl() }}" alt="{{ $row->name }}" class="h-9 w-9 rounded-full object-cover ring-2 ring-sky-50 shrink-0">
                                         <div class="min-w-0">
-                                            <p class="font-medium text-slate-800 truncate">
-                                                {{ $row->name }}
-                                                @if ($row->id === Auth::id())
-                                                    <span class="ml-1 text-[11px] text-slate-400">(Anda)</span>
+                                            @if ($row->role === 'user')
+                                                @if ($row->pegawai)
+                                                    <p class="font-medium text-slate-800 font-mono truncate">
+                                                        {{ $row->pegawai->nip }}
+                                                        @if ($row->id === Auth::id())
+                                                            <span class="ml-1 text-[11px] text-slate-400 font-sans">(Anda)</span>
+                                                        @endif
+                                                    </p>
+                                                    <p class="text-xs text-slate-500 truncate">{{ $row->pegawai->namaLengkap() }}</p>
+                                                    <p class="text-xs text-slate-400 truncate">{{ $row->pegawai->jabatan ?: '—' }}</p>
+                                                @else
+                                                    <p class="font-medium text-slate-800 font-mono truncate">
+                                                        {{ $row->username }}
+                                                        @if ($row->id === Auth::id())
+                                                            <span class="ml-1 text-[11px] text-slate-400 font-sans">(Anda)</span>
+                                                        @endif
+                                                    </p>
+                                                    <p class="text-xs text-slate-400 truncate">{{ $row->name }}</p>
                                                 @endif
-                                            </p>
-                                            @if ($row->pegawai)
-                                                <p class="text-xs text-slate-400 font-mono">{{ $row->pegawai->nip }}</p>
-                                                <p class="text-xs text-slate-400 truncate">{{ $row->pegawai->jabatan ?: '—' }}</p>
+                                            @elseif ($row->role === 'opd')
+                                                <p class="font-medium text-slate-800 font-mono truncate">
+                                                    {{ $row->username }}
+                                                    @if ($row->id === Auth::id())
+                                                        <span class="ml-1 text-[11px] text-slate-400 font-sans">(Anda)</span>
+                                                    @endif
+                                                </p>
+                                                <p class="text-xs text-slate-500 truncate">{{ $row->opdDiampu->pluck('uraiunor')->implode(', ') ?: 'Belum ada OPD diampu' }}</p>
                                             @else
-                                                <p class="text-xs text-slate-400 font-mono">{{ $row->username }}</p>
+                                                <p class="font-medium text-slate-800 font-mono truncate">
+                                                    {{ $row->username }}
+                                                    @if ($row->id === Auth::id())
+                                                        <span class="ml-1 text-[11px] text-slate-400 font-sans">(Anda)</span>
+                                                    @endif
+                                                </p>
                                             @endif
                                         </div>
                                     </div>
