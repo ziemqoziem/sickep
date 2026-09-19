@@ -10,14 +10,24 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * Skema final "users" -- sudah menggabungkan seluruh migration alter
+     * yang tadinya terpisah (add_photo, add_pegawai_id, add_opd_role,
+     * add_aktif, restructure_users_username_email_no_hp) supaya instalasi
+     * baru langsung dapat skema akhir dalam satu langkah.
      */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pegawai_id')->nullable()->constrained('tb_pegawai_aktif')->nullOnDelete();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->enum('role', ['admin', 'user'])->default('user');
+            $table->string('username')->unique();
+            $table->string('email')->nullable()->unique();
+            $table->string('no_hp', 30)->nullable();
+            $table->string('photo')->nullable();
+            $table->enum('role', ['admin', 'opd', 'user'])->default('user');
+            $table->boolean('aktif')->default(true);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -43,6 +53,7 @@ return new class extends Migration
         DB::table('users')->insert([
             [
                 'name' => 'Admin SICKEP',
+                'username' => 'admin@klaten.go.id',
                 'email' => 'admin@klaten.go.id',
                 'role' => 'admin',
                 'password' => Hash::make('password123'),
@@ -52,6 +63,7 @@ return new class extends Migration
             ],
             [
                 'name' => 'User SICKEP',
+                'username' => 'user@klaten.go.id',
                 'email' => 'user@klaten.go.id',
                 'role' => 'user',
                 'password' => Hash::make('password123'),

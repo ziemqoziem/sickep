@@ -116,6 +116,7 @@ class MasterPegawaiController extends Controller
         }
 
         $results = MasterPegawai::query()
+            ->withExists('user')
             ->where(function ($query) use ($q) {
                 $query->where('nama', 'like', "%{$q}%")
                     ->orWhere('nip', 'like', "%{$q}%");
@@ -131,6 +132,7 @@ class MasterPegawaiController extends Controller
             'pangkat' => $p->pangkat,
             'golongan' => $p->golongan,
             'jabatan' => $p->jabatan,
+            'has_user' => (bool) $p->user_exists,
         ])->values());
     }
 }

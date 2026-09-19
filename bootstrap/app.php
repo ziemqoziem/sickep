@@ -14,6 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
         ]);
+
+        $middleware->web(append: [
+            \App\Http\Middleware\EnsureUserIsActive::class,
+            \App\Http\Middleware\LogActivity::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

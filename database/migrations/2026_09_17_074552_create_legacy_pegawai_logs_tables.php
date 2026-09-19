@@ -6,8 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Jejak audit aksi nonaktifkan/aktifkan/mutasi pada data pegawai
+     * legacy (sysdb_pns, menu "Pegawai Simabs") -- digabung dari 2
+     * migration terpisah.
+     */
     public function up(): void
     {
+        Schema::create('pegawai_status_logs', function (Blueprint $table) {
+            $table->id();
+            $table->string('pns_pnsnip', 9);
+            $table->string('nip_baru', 18)->nullable();
+            $table->string('nama', 255)->nullable();
+            $table->enum('status_baru', ['Aktif', 'Tidak Aktif']);
+            $table->text('alasan')->nullable();
+            $table->date('tanggal_efektif');
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->timestamps();
+
+            $table->index('pns_pnsnip');
+        });
+
         Schema::create('pegawai_mutasi_logs', function (Blueprint $table) {
             $table->id();
             $table->string('pns_pnsnip', 9);
@@ -36,8 +55,12 @@ return new class extends Migration
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('pegawai_mutasi_logs');
+        Schema::dropIfExists('pegawai_status_logs');
     }
 };

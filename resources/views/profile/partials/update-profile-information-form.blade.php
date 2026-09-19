@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-slate-500">
-            {{ __('Perbarui nama dan alamat email akun Anda.') }}
+            {{ __('Perbarui nama, email, dan nomor HP akun Anda.') }}
         </p>
     </header>
 
@@ -18,6 +18,13 @@
         @method('patch')
 
         <div>
+            <label for="username" class="block text-sm font-medium text-slate-700">{{ __('Username (login)') }}</label>
+            <input id="username" type="text" value="{{ $user->username }}" disabled
+                   class="mt-1.5 block w-full rounded-lg border-slate-200 bg-slate-50 shadow-sm text-sm text-slate-500 font-mono">
+            <p class="mt-1 text-xs text-slate-400">{{ __('Username tidak bisa diubah sendiri. Hubungi Admin bila perlu diganti.') }}</p>
+        </div>
+
+        <div>
             <label for="name" class="block text-sm font-medium text-slate-700">{{ __('Nama') }}</label>
             <input id="name" name="name" type="text" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name"
                    class="mt-1.5 block w-full rounded-lg border-slate-300 shadow-sm text-sm focus:border-sky-500 focus:ring-sky-500">
@@ -25,10 +32,11 @@
         </div>
 
         <div>
-            <label for="email" class="block text-sm font-medium text-slate-700">{{ __('Email') }}</label>
-            <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" required autocomplete="username"
+            <label for="email" class="block text-sm font-medium text-slate-700">{{ __('Email (opsional)') }}</label>
+            <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" autocomplete="email"
                    class="mt-1.5 block w-full rounded-lg border-slate-300 shadow-sm text-sm focus:border-sky-500 focus:ring-sky-500">
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <p class="mt-1 text-xs text-slate-400">{{ __('Dipakai untuk profil dan notifikasi, bukan untuk login.') }}</p>
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
@@ -47,6 +55,14 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div>
+            <label for="no_hp" class="block text-sm font-medium text-slate-700">{{ __('No. HP (opsional)') }}</label>
+            <input id="no_hp" name="no_hp" type="text" value="{{ old('no_hp', $user->no_hp) }}" autocomplete="tel"
+                   class="mt-1.5 block w-full rounded-lg border-slate-300 shadow-sm text-sm focus:border-sky-500 focus:ring-sky-500">
+            <x-input-error class="mt-2" :messages="$errors->get('no_hp')" />
+            <p class="mt-1 text-xs text-slate-400">{{ __('Dipakai untuk notifikasi.') }}</p>
         </div>
 
         <div class="flex items-center gap-4">

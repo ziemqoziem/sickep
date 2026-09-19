@@ -15,6 +15,7 @@ $iconAjukanCuti = 'M12 4v16m8-8H4';
 $iconRiwayatCuti = 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z';
 $iconPersetujuan = 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z';
 $iconPersetujuanAkhir = 'M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0zM12 8v1m0 6v1';
+$iconLogAktivitas = 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4';
 
 // Setiap elemen: item tunggal ({route,label,icon}) atau grup ({label, items:[...]}).
 // Item di dalam grup bisa diberi 'admin' => true supaya hanya tampil untuk admin,
@@ -49,6 +50,7 @@ $navSections = [
             ['route' => 'master.pengguna', 'label' => 'Pengguna', 'icon' => $iconPengguna, 'admin' => true],
             ['route' => 'master.pegawai', 'label' => 'Master Pegawai', 'icon' => $iconMasterPegawai, 'admin' => true],
             ['route' => 'master.jenis-cuti', 'label' => 'Aturan Cuti', 'icon' => $iconAturanCuti, 'admin' => true],
+            ['route' => 'master.log-aktivitas', 'label' => 'Log Aktivitas', 'icon' => $iconLogAktivitas, 'admin' => true],
         ],
     ],
 ];
@@ -71,7 +73,7 @@ $navSections = [
             </div>
             <div class="min-w-0">
                 <p class="text-sm font-medium text-slate-800 truncate">{{ Auth::user()->name }}</p>
-                <p class="text-xs text-slate-400 truncate">{{ Auth::user()->email }}</p>
+                <p class="text-xs text-slate-400 truncate">{{ Auth::user()->username }}</p>
             </div>
         </div>
         <div class="mt-3 flex items-center gap-2">
@@ -122,7 +124,7 @@ $navSections = [
                 </div>
                 <div class="min-w-0">
                     <p class="text-sm font-medium text-slate-800 truncate">{{ Auth::user()->name }}</p>
-                    <p class="text-xs text-slate-400 truncate">{{ Auth::user()->email }}</p>
+                    <p class="text-xs text-slate-400 truncate">{{ Auth::user()->username }}</p>
                 </div>
             </div>
             <div class="mt-3 flex items-center gap-2">

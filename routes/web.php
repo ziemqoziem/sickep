@@ -5,9 +5,11 @@ use App\Http\Controllers\Cuti\CutiPengajuanController;
 use App\Http\Controllers\Cuti\PersetujuanAkhirCutiController;
 use App\Http\Controllers\Cuti\RekapitulasiController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\RoleDashboardController;
 use App\Http\Controllers\Data\OpdController;
 use App\Http\Controllers\Data\PegawaiActionController;
 use App\Http\Controllers\Data\PegawaiController;
+use App\Http\Controllers\Master\ActivityLogController;
 use App\Http\Controllers\Master\JenisCutiAturanController;
 use App\Http\Controllers\Master\MasterPegawaiActionController;
 use App\Http\Controllers\Master\MasterPegawaiController;
@@ -22,9 +24,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// "Dashboard" sengaja masih kosong (placeholder) -- konten KPI cuti yang
-// dulu ada di sini sekarang di /summary-cuti (menu "Summary Cuti").
-Route::get('/dashboard', fn () => view('placeholder', ['title' => 'Dashboard']))
+// Dashboard beranda -- tampilan berbeda per role (user/opd/admin), lihat
+// RoleDashboardController. KPI historis lengkap dari data sync legacy
+// tetap ada terpisah di /summary-cuti (menu "Summary Cuti").
+Route::get('/dashboard', [RoleDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -89,7 +92,10 @@ Route::middleware(['auth', 'admin'])->prefix('master')->name('master.')->group(f
 
     Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna');
     Route::post('/pengguna', [PenggunaController::class, 'store'])->name('pengguna.store');
+    Route::post('/pengguna/generate', [PenggunaController::class, 'generate'])->name('pengguna.generate');
     Route::put('/pengguna/{pengguna}', [PenggunaController::class, 'update'])->name('pengguna.update');
+    Route::post('/pengguna/{pengguna}/nonaktifkan', [PenggunaController::class, 'nonaktifkan'])->name('pengguna.nonaktifkan');
+    Route::post('/pengguna/{pengguna}/aktifkan', [PenggunaController::class, 'aktifkan'])->name('pengguna.aktifkan');
     Route::delete('/pengguna/{pengguna}', [PenggunaController::class, 'destroy'])->name('pengguna.destroy');
 
     Route::get('/pegawai', [MasterPegawaiController::class, 'index'])->name('pegawai');
@@ -103,6 +109,8 @@ Route::middleware(['auth', 'admin'])->prefix('master')->name('master.')->group(f
     Route::get('/jenis-cuti', [JenisCutiAturanController::class, 'index'])->name('jenis-cuti');
     Route::post('/jenis-cuti', [JenisCutiAturanController::class, 'store'])->name('jenis-cuti.store');
     Route::put('/jenis-cuti/{jenisCuti}', [JenisCutiAturanController::class, 'update'])->name('jenis-cuti.update');
+
+    Route::get('/log-aktivitas', [ActivityLogController::class, 'index'])->name('log-aktivitas');
 });
 
 require __DIR__.'/auth.php';

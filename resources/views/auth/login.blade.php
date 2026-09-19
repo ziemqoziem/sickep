@@ -43,12 +43,12 @@
                         <form method="POST" action="{{ route('login') }}" class="space-y-5">
                             @csrf
 
-                            <!-- Email Address -->
+                            <!-- Username -->
                             <div>
-                                <label for="email" class="block text-sm font-medium text-slate-700">Email</label>
-                                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                                <label for="username" class="block text-sm font-medium text-slate-700">Username</label>
+                                <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus autocomplete="username"
                                        class="mt-1.5 block w-full rounded-lg border-slate-300 shadow-sm text-sm focus:border-sky-500 focus:ring-sky-500">
-                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('username')" class="mt-2" />
                             </div>
 
                             <!-- Password -->

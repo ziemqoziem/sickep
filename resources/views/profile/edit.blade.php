@@ -18,7 +18,7 @@
                          class="h-16 w-16 rounded-full object-cover ring-4 ring-white/30 border border-white/40">
                     <div>
                         <p class="text-lg font-bold text-white">{{ $user->name }}</p>
-                        <p class="text-sm text-sky-100">{{ $user->email }}</p>
+                        <p class="text-sm text-sky-100 font-mono">{{ $user->username }}</p>
                         <span class="mt-1 inline-flex items-center rounded-full bg-white/15 text-white text-xs font-medium px-2.5 py-0.5 capitalize">
                             {{ $user->role }}
                         </span>

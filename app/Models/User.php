@@ -22,10 +22,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'no_hp',
         'photo',
         'password',
         'role',
+        'aktif',
         'pegawai_id',
     ];
 
@@ -49,6 +52,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'aktif' => 'boolean',
         ];
     }
 
@@ -77,5 +81,18 @@ class User extends Authenticatable
         return $this->photo
             ? asset('storage/'.$this->photo)
             : 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=0369a1&background=e0f2fe';
+    }
+
+    /**
+     * Palet gradasi warna per tipe peran, dipakai di halaman Master
+     * Pengguna supaya admin/opd/user gampang dibedakan sekilas.
+     */
+    public function roleWarna(): array
+    {
+        return match ($this->role) {
+            'admin' => ['from' => 'from-sky-500', 'to' => 'to-indigo-600', 'label' => 'Admin'],
+            'opd' => ['from' => 'from-violet-500', 'to' => 'to-purple-600', 'label' => 'OPD'],
+            default => ['from' => 'from-teal-500', 'to' => 'to-emerald-600', 'label' => 'User'],
+        };
     }
 }
