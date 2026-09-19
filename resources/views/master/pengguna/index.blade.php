@@ -152,6 +152,7 @@
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                 <form method="GET" action="{{ route('master.pengguna') }}" class="flex flex-wrap gap-3 flex-1">
                     <input type="text" name="q" value="{{ $q }}" placeholder="Cari nama, username, email, atau NIP..."
+                           @input.debounce.500ms="$el.form.requestSubmit()"
                            class="flex-1 min-w-[180px] rounded-lg border-slate-300 focus:border-sky-500 focus:ring-sky-500 text-sm">
 
                     <select name="role" onchange="this.form.submit()"
@@ -173,13 +174,6 @@
                             class="inline-flex items-center px-4 py-2 bg-sky-600 rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-sky-700 transition">
                         Cari
                     </button>
-
-                    @if ($q !== '' || $role !== '')
-                        <a href="{{ route('master.pengguna') }}"
-                           class="inline-flex items-center px-3 py-2 rounded-lg text-xs font-medium text-slate-500 hover:bg-slate-100 transition">
-                            Reset
-                        </a>
-                    @endif
                 </form>
 
                 <div class="flex items-center gap-2 shrink-0">
@@ -198,6 +192,10 @@
                         Tambah Pengguna
                     </button>
                 </div>
+            </div>
+
+            <div class="flex justify-center sm:justify-end">
+                {{ $pengguna->links() }}
             </div>
 
             <div class="bg-white border border-sky-100 rounded-2xl shadow-sm overflow-hidden">
@@ -324,8 +322,6 @@
                     </tbody>
                 </table>
             </div>
-
-            {{ $pengguna->links() }}
         </div>
 
         {{-- Modal: Create/Edit --}}
