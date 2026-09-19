@@ -86,4 +86,18 @@ class CutiPengajuan extends Model
             default => 'Diajukan',
         };
     }
+
+    /**
+     * Kelas badge (soft) + gradient (solid) untuk status keseluruhan --
+     * dipakai di seluruh halaman Cuti Baru supaya warna status konsisten.
+     */
+    public function statusWarna(): array
+    {
+        return match ($this->status) {
+            'disetujui' => ['badge' => 'bg-emerald-50 text-emerald-700', 'gradient' => 'from-emerald-500 to-emerald-600', 'dot' => 'bg-emerald-500'],
+            'ditolak' => ['badge' => 'bg-red-50 text-red-700', 'gradient' => 'from-red-500 to-red-600', 'dot' => 'bg-red-500'],
+            'dibatalkan' => ['badge' => 'bg-slate-100 text-slate-500', 'gradient' => 'from-slate-400 to-slate-500', 'dot' => 'bg-slate-400'],
+            default => ['badge' => 'bg-amber-50 text-amber-700', 'gradient' => 'from-amber-500 to-amber-600', 'dot' => 'bg-amber-500'],
+        };
+    }
 }
