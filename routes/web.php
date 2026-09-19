@@ -13,6 +13,7 @@ use App\Http\Controllers\Master\ActivityLogController;
 use App\Http\Controllers\Master\JenisCutiAturanController;
 use App\Http\Controllers\Master\MasterPegawaiActionController;
 use App\Http\Controllers\Master\MasterPegawaiController;
+use App\Http\Controllers\Master\MenuAksesController;
 use App\Http\Controllers\Master\PengumumanController;
 use App\Http\Controllers\Master\PenggunaController;
 use App\Http\Controllers\Master\UnitKerjaController;
@@ -117,6 +118,9 @@ Route::middleware(['auth', 'admin'])->prefix('master')->name('master.')->group(f
     Route::post('/pengumuman', [PengumumanController::class, 'store'])->name('pengumuman.store');
     Route::put('/pengumuman/{pengumuman}', [PengumumanController::class, 'update'])->name('pengumuman.update');
     Route::delete('/pengumuman/{pengumuman}', [PengumumanController::class, 'destroy'])->name('pengumuman.destroy');
+
+    Route::get('/akses-menu', [MenuAksesController::class, 'index'])->name('akses-menu');
+    Route::post('/akses-menu', [MenuAksesController::class, 'update'])->name('akses-menu.update');
 });
 
 require __DIR__.'/auth.php';

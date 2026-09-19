@@ -1,7 +1,13 @@
 @foreach ($navSections as $section)
     @if (isset($section['group']))
         @php
-            $visibleItems = collect($section['items'])->filter(fn ($item) => ! ($item['admin'] ?? false) || Auth::user()->isAdmin());
+            $visibleItems = collect($section['items'])->filter(function ($item) use ($allowedMenuRoutes) {
+                if ($item['admin'] ?? false) {
+                    return Auth::user()->isAdmin();
+                }
+
+                return Auth::user()->isAdmin() || in_array($item['route'], $allowedMenuRoutes, true);
+            });
         @endphp
         @if ($visibleItems->isNotEmpty())
             <p class="px-3 pt-3 pb-0.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
