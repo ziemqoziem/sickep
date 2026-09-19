@@ -8,7 +8,6 @@
     <div class="py-10 print:py-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 print:px-0 print:max-w-none space-y-6 print:space-y-3">
 
-            {{-- Kop cetak: hanya tampil saat print --}}
             <div class="hidden print:flex items-center gap-4 pb-3 border-b-2 border-black">
                 <img src="{{ asset('images/logo-klaten.png') }}" alt="Logo Kabupaten Klaten" class="h-16 w-auto object-contain">
                 <div>
@@ -22,7 +21,6 @@
                 Rekap jumlah pengajuan dan total hari cuti per OPD yang telah disetujui penuh (atasan langsung &amp; pejabat berwenang), berdasarkan tahun dan jenis cuti.
             </p>
 
-            {{-- Kartu ringkasan --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 print:hidden">
                 <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-sky-600 to-sky-700 p-6 shadow-lg shadow-sky-600/20">
                     <div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10"></div>
@@ -44,7 +42,6 @@
                 </div>
             </div>
 
-            {{-- Filter & aksi cetak --}}
             <form method="GET" action="{{ route('rekapitulasi') }}" class="flex flex-wrap items-end gap-3 print:hidden">
                 <div>
                     <label class="block text-xs font-medium text-slate-500 mb-1">Tahun</label>
@@ -79,7 +76,6 @@
                 </button>
             </form>
 
-            {{-- Tabel rekap (tampilan layar, dipaginasi) --}}
             <div class="print:hidden">
                 @include('cuti.partials.rekapitulasi-table', ['rows' => $rows])
             </div>
@@ -92,7 +88,6 @@
                 {{ $rows->onEachSide(1)->links() }}
             </div>
 
-            {{-- Tabel rekap (versi cetak, seluruh baris tanpa paginasi) --}}
             <div class="hidden print:block">
                 @include('cuti.partials.rekapitulasi-table', ['rows' => $allRows])
             </div>

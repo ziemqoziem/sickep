@@ -8,7 +8,6 @@
     <div class="py-10">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            <!-- Profile summary banner -->
             <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-sky-600 to-sky-700 px-6 py-8 sm:px-10 shadow-md shadow-sky-600/20">
                 <div class="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10"></div>
                 <div class="absolute -left-6 -bottom-10 w-32 h-32 rounded-full bg-white/10"></div>

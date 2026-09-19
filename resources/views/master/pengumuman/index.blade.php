@@ -31,7 +31,6 @@
     }">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            {{-- Hero --}}
             <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-700 p-6 sm:p-8 shadow-lg shadow-indigo-600/20">
                 <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-white/10"></div>
                 <div class="absolute -left-8 -bottom-10 w-32 h-32 rounded-full bg-white/10"></div>
@@ -140,7 +139,6 @@
             {{ $pengumuman->links() }}
         </div>
 
-        {{-- Modal: Create/Edit --}}
         <div x-show="formOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" @click="formOpen = false"></div>
 
@@ -201,7 +199,6 @@
             </form>
         </div>
 
-        {{-- Modal: Delete confirm --}}
         <div x-show="deleteOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/50" @click="deleteOpen = false"></div>
 

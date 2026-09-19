@@ -109,7 +109,6 @@
     </div>
 
     <script>
-        // Sinkronkan nilai form utama ke form uji koneksi tersembunyi sebelum submit.
         document.getElementById('test-connection-form').addEventListener('submit', function () {
             const fields = ['host', 'port', 'database', 'driver', 'username', 'password'];
             fields.forEach((name) => {

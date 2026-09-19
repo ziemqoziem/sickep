@@ -26,7 +26,6 @@
                 </div>
             @endif
 
-            {{-- Hero --}}
             <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br {{ $warna['from'] }} {{ $warna['to'] }} p-6 sm:p-8 shadow-lg shadow-sky-600/10">
                 <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-white/10"></div>
                 <div class="absolute -left-8 -bottom-10 w-32 h-32 rounded-full bg-white/10"></div>
@@ -134,7 +133,6 @@
                 @endif
             </div>
 
-            {{-- Stepper Jejak Persetujuan --}}
             <div class="bg-white border border-sky-100 rounded-2xl shadow-sm p-6 sm:p-8">
                 <p class="text-sm font-semibold text-slate-700 mb-6">Jejak Persetujuan</p>
 

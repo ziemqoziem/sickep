@@ -347,7 +347,6 @@
             </div>
         </div>
 
-        {{-- Modal: Create/Edit --}}
         <div x-show="formOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/50" @click="formOpen = false"></div>
 
@@ -469,7 +468,6 @@
             </form>
         </div>
 
-        {{-- Modal: Delete confirm --}}
         <div x-show="deleteOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/50" @click="deleteOpen = false"></div>
 
@@ -498,7 +496,6 @@
             </form>
         </div>
 
-        {{-- Modal: Generate Pengguna --}}
         <div x-show="genOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" @click="genOpen = false"></div>
 
@@ -526,7 +523,6 @@
                     </div>
                 </div>
 
-                {{-- Tipe --}}
                 <div class="grid grid-cols-2 gap-2">
                     <button type="button" @click="setGenType('user')"
                             :class="genType === 'user' ? 'bg-sky-600 text-white border-sky-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'"
@@ -540,7 +536,6 @@
                     </button>
                 </div>
 
-                {{-- Mode: Pegawai --}}
                 <div x-show="genType === 'user'" x-cloak class="grid grid-cols-2 gap-2 text-xs">
                     <button type="button" @click="setGenMode('single')"
                             :class="genMode === 'single' ? 'bg-sky-50 text-sky-700 border-sky-300' : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'"
@@ -554,7 +549,6 @@
                     </button>
                 </div>
 
-                {{-- Mode: OPD --}}
                 <div x-show="genType === 'opd'" x-cloak class="grid grid-cols-2 gap-2 text-xs">
                     <button type="button" @click="setGenMode('single')"
                             :class="genMode === 'single' ? 'bg-violet-50 text-violet-700 border-violet-300' : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'"
@@ -568,7 +562,6 @@
                     </button>
                 </div>
 
-                {{-- Pegawai: cari satu --}}
                 <div x-show="genType === 'user' && genMode === 'single'" x-cloak class="relative">
                     <x-input-label value="Cari Pegawai" />
                     <input type="text" x-model="genPegawaiQuery"
@@ -599,7 +592,6 @@
                     </template>
                 </div>
 
-                {{-- Pegawai: per OPD (bulk) --}}
                 <div x-show="genType === 'user' && genMode === 'all'" x-cloak>
                     <x-input-label value="Pilih OPD" />
                     <select x-model="genOpdId" @change="genConfirm = false"
@@ -616,7 +608,6 @@
                     </label>
                 </div>
 
-                {{-- OPD: satu --}}
                 <div x-show="genType === 'opd' && genMode === 'single'" x-cloak>
                     <x-input-label value="Pilih OPD" />
                     <select x-model="genOpdId"
@@ -628,7 +619,6 @@
                     </select>
                 </div>
 
-                {{-- OPD: semua (bulk) --}}
                 <div x-show="genType === 'opd' && genMode === 'all'" x-cloak>
                     <label class="flex items-start gap-2 text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2 cursor-pointer">
                         <input type="checkbox" x-model="genConfirm" class="mt-0.5 rounded border-amber-300 text-amber-600 focus:ring-amber-500">
@@ -636,7 +626,6 @@
                     </label>
                 </div>
 
-                {{-- Preview kredensial --}}
                 <div class="rounded-lg bg-slate-50 px-3 py-2.5 text-xs space-y-1">
                     <p class="flex justify-between gap-3">
                         <span class="text-slate-400 shrink-0">Username</span>

@@ -13,7 +13,6 @@
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            {{-- Hero --}}
             <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-600 p-6 sm:p-8 shadow-lg shadow-indigo-600/20">
                 <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-white/10"></div>
                 <div class="absolute -left-8 -bottom-10 w-32 h-32 rounded-full bg-white/10"></div>
@@ -36,7 +35,6 @@
                 </div>
             @endif
 
-            {{-- KPI tiles --}}
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 p-5 shadow-lg shadow-sky-600/20">
                     <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/10"></div>
@@ -94,7 +92,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {{-- Tren bulanan --}}
                 <div class="bg-white border border-sky-100 rounded-2xl p-6 shadow-sm">
                     <h3 class="font-semibold text-slate-800 mb-1">Tren Pengajuan Cuti</h3>
                     <p class="text-xs text-slate-400 mb-6">Jumlah ajuan per bulan, tahun {{ $tahun }}</p>
@@ -114,7 +111,6 @@
                     </div>
                 </div>
 
-                {{-- Rekap status --}}
                 <div class="bg-white border border-sky-100 rounded-2xl p-6 shadow-sm">
                     <h3 class="font-semibold text-slate-800 mb-1">Rekap Status</h3>
                     <p class="text-xs text-slate-400 mb-6">Tahun {{ $tahun }}</p>
@@ -148,7 +144,6 @@
                 </div>
             </div>
 
-            {{-- Distribusi jenis cuti --}}
             <div class="bg-white border border-sky-100 rounded-2xl p-6 shadow-sm">
                 <h3 class="font-semibold text-slate-800 mb-1">Distribusi Jenis Cuti</h3>
                 <p class="text-xs text-slate-400 mb-5">Tahun {{ $tahun }}</p>
@@ -173,7 +168,6 @@
                 @endif
             </div>
 
-            {{-- Pengajuan terbaru --}}
             <div class="bg-white border border-sky-100 rounded-2xl shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100">
                     <h3 class="font-semibold text-slate-800">Pengajuan Terbaru di OPD Anda</h3>

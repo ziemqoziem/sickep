@@ -8,7 +8,6 @@
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            {{-- Hero --}}
             <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-700 via-slate-700 to-indigo-800 p-6 sm:p-8 shadow-lg shadow-slate-700/20">
                 <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-white/10"></div>
                 <div class="absolute -left-8 -bottom-10 w-32 h-32 rounded-full bg-white/10"></div>
@@ -25,7 +24,6 @@
                 </div>
             </div>
 
-            {{-- KPI tiles --}}
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 p-5 shadow-lg shadow-sky-600/20">
                     <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/10"></div>
@@ -80,7 +78,6 @@
                 </div>
             </div>
 
-            {{-- Filter --}}
             <div class="bg-white border border-sky-100 rounded-2xl shadow-sm p-4 sm:p-5">
                 <form method="GET" action="{{ route('master.log-aktivitas') }}" class="flex flex-wrap gap-3 items-end">
                     <div class="flex-1 min-w-[200px]">
@@ -149,7 +146,6 @@
                 </form>
             </div>
 
-            {{-- Table --}}
             <div class="bg-white border border-sky-100 rounded-2xl shadow-sm overflow-hidden">
                 <table class="min-w-full divide-y divide-sky-100">
                     <thead class="bg-sky-50">

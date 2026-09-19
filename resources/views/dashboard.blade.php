@@ -30,7 +30,6 @@
                 yang telah disetujui penuh (atasan langsung &amp; pejabat berwenang).
             </p>
 
-            {{-- KPI stat tiles --}}
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-sky-600 to-sky-700 p-5 shadow-lg shadow-sky-600/20">
                     <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/10"></div>
@@ -95,7 +94,6 @@
                 </div>
             </div>
 
-            {{-- Tren bulanan --}}
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
                     <div class="flex items-center justify-between mb-6">
@@ -147,7 +145,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {{-- Distribusi jenis cuti --}}
                 <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
                     <h3 class="font-semibold text-slate-800 mb-1">Distribusi Jenis Cuti</h3>
                     <p class="text-xs text-slate-400 mb-5">Tahun {{ $tahun }}</p>
@@ -169,7 +166,6 @@
                     </div>
                 </div>
 
-                {{-- Top OPD --}}
                 <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
                     <h3 class="font-semibold text-slate-800 mb-1">OPD dengan Cuti Terbanyak</h3>
                     <p class="text-xs text-slate-400 mb-5">Top 8 OPD, tahun {{ $tahun }}</p>
@@ -192,7 +188,6 @@
                 </div>
             </div>
 
-            {{-- Riwayat cuti terbaru --}}
             <div class="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                     <h3 class="font-semibold text-slate-800">Riwayat Cuti Terbaru <span class="text-slate-400 font-normal">({{ $tahun }})</span></h3>
@@ -237,7 +232,6 @@
             </div>
         </div>
 
-        {{-- Modal: Sedang Cuti Hari Ini --}}
         <div x-show="modalSedangCuti" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/50" @click="modalSedangCuti = false"></div>
 

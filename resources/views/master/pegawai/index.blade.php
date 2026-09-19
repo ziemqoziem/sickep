@@ -218,7 +218,6 @@
             {{ $pegawai->links() }}
         </div>
 
-        {{-- Modal: Create/Edit --}}
         <div x-show="formOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/50" @click="formOpen = false"></div>
 
@@ -356,11 +355,9 @@
             </form>
         </div>
 
-        {{-- Modal: Non Aktifkan / Aktifkan / Mutasi --}}
         <div x-show="actionModal !== null" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/50" @click="actionModal = null"></div>
 
-            {{-- Non Aktifkan --}}
             <form x-show="actionModal === 'nonaktifkan'" x-cloak method="POST"
                   :action="target ? '{{ url('master/pegawai') }}/' + target.id + '/nonaktifkan' : '#'"
                   class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
@@ -395,7 +392,6 @@
                 </div>
             </form>
 
-            {{-- Aktifkan Kembali --}}
             <form x-show="actionModal === 'aktifkan'" x-cloak method="POST"
                   :action="target ? '{{ url('master/pegawai') }}/' + target.id + '/aktifkan' : '#'"
                   class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
@@ -430,7 +426,6 @@
                 </div>
             </form>
 
-            {{-- Mutasi --}}
             <form x-show="actionModal === 'mutasi'" x-cloak method="POST"
                   :action="target ? '{{ url('master/pegawai') }}/' + target.id + '/mutasi' : '#'"
                   class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4 max-h-[90vh] overflow-y-auto">

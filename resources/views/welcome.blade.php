@@ -8,20 +8,16 @@
         <title>{{ config('app.name', 'SICKEP') }} &mdash; Sistem Informasi Cuti Kepegawaian</title>
         <meta name="description" content="SICKEP — Sistem Informasi Cuti Kepegawaian Pemerintah Kabupaten Klaten.">
 
-        <!-- Favicon -->
         <link rel="icon" type="image/png" href="{{ asset('images/logo-klaten.png') }}">
 
-        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased text-slate-700">
         <div class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-white">
 
-            <!-- Top bar -->
             <header class="border-b border-sky-100 bg-white/80 backdrop-blur">
                 <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -46,7 +42,6 @@
                 </div>
             </header>
 
-            <!-- Hero -->
             <section class="max-w-6xl mx-auto px-6 pt-16 pb-20">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div>
@@ -113,7 +108,6 @@
                 </div>
             </section>
 
-            <!-- Feature highlights -->
             <section class="max-w-6xl mx-auto px-6 pb-24">
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="rounded-2xl border border-sky-100 bg-white p-6 hover:shadow-md transition">
@@ -154,7 +148,6 @@
                 </div>
             </section>
 
-            <!-- Footer -->
             <footer class="border-t border-sky-100">
                 <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-400">
                     <p>&copy; {{ date('Y') }} Pemerintah Kabupaten Klaten &mdash; SICKEP</p>

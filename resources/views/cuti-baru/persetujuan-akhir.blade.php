@@ -74,7 +74,6 @@
                         </div>
                         <p class="text-sm text-slate-600">{{ $p->alasan }}</p>
 
-                        {{-- Mini stepper: jenjang 1 & 2 sudah lolos, jenjang 3 (final) aktif --}}
                         <div class="flex items-center gap-2">
                             <div class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 shrink-0">
                                 <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -135,7 +134,6 @@
             {{ $tahapList->links() }}
         </div>
 
-        {{-- Modal: Setujui / Tolak --}}
         <div x-show="modal !== null" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" @click="closeModal()"
                  x-show="modal !== null" x-transition.opacity></div>

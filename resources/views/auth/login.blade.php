@@ -7,14 +7,11 @@
 
         <title>{{ config('app.name', 'SICKEP') }} &mdash; Masuk</title>
 
-        <!-- Favicon -->
         <link rel="icon" type="image/png" href="{{ asset('images/logo-klaten.png') }}">
 
-        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased text-slate-700">
@@ -26,14 +23,12 @@
                     <div class="absolute -left-10 -bottom-10 w-32 h-32 rounded-full bg-sky-50/70"></div>
 
                     <div class="relative px-8 pt-10 pb-8">
-                        <!-- Brand -->
                         <div class="flex flex-col items-center text-center mb-8">
                             <img src="{{ asset('images/logo-klaten.png') }}" alt="Logo Kabupaten Klaten" class="h-20 w-auto object-contain">
                             <p class="mt-4 text-2xl font-extrabold text-sky-900 tracking-wide">SICKEP</p>
                             <p class="text-sm text-slate-500">Sistem Informasi Cuti Kepegawaian</p>
                         </div>
 
-                        <!-- Session Status -->
                         @if (session('status'))
                             <div class="mb-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm px-4 py-3">
                                 {{ session('status') }}
@@ -43,7 +38,6 @@
                         <form method="POST" action="{{ route('login') }}" class="space-y-5">
                             @csrf
 
-                            <!-- Username -->
                             <div>
                                 <label for="username" class="block text-sm font-medium text-slate-700">Username</label>
                                 <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus autocomplete="username"
@@ -51,7 +45,6 @@
                                 <x-input-error :messages="$errors->get('username')" class="mt-2" />
                             </div>
 
-                            <!-- Password -->
                             <div>
                                 <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
                                 <input id="password" type="password" name="password" required autocomplete="current-password"
@@ -59,7 +52,6 @@
                                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
                             </div>
 
-                            <!-- Remember Me -->
                             <div class="flex items-center justify-between">
                                 <label for="remember_me" class="inline-flex items-center gap-2 cursor-pointer">
                                     <input id="remember_me" type="checkbox" name="remember"

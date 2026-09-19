@@ -142,7 +142,6 @@
             {{ $aturan->links() }}
         </div>
 
-        {{-- Modal: Create/Edit --}}
         <div x-show="formOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/50" @click="formOpen = false"></div>
 

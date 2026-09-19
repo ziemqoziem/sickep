@@ -35,7 +35,6 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
-                {{-- Live preview --}}
                 <div class="lg:col-span-1 lg:sticky lg:top-6 order-first lg:order-last">
                     <div class="relative overflow-hidden rounded-2xl p-6 shadow-lg transition-all duration-300 bg-gradient-to-br"
                          :class="jenis ? [jenis.warna.from, jenis.warna.to] : ['from-slate-400', 'to-slate-500']">
@@ -69,12 +68,10 @@
                     </div>
                 </div>
 
-                {{-- Form --}}
                 <div class="lg:col-span-2 space-y-5">
                     <form method="POST" action="{{ route('cuti-baru.ajukan.store') }}" enctype="multipart/form-data" class="space-y-5">
                         @csrf
 
-                        {{-- Section: Jenis & Atasan --}}
                         <div class="bg-white border border-sky-100 rounded-2xl shadow-sm p-6 sm:p-7 space-y-5">
                             <div class="flex items-center gap-2.5">
                                 <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-sky-600 text-white text-xs font-bold">1</span>
@@ -113,7 +110,6 @@
                             </div>
                         </div>
 
-                        {{-- Section: Tanggal --}}
                         <div class="bg-white border border-sky-100 rounded-2xl shadow-sm p-6 sm:p-7 space-y-5">
                             <div class="flex items-center gap-2.5">
                                 <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-sky-600 text-white text-xs font-bold">2</span>
@@ -140,7 +136,6 @@
                             </div>
                         </div>
 
-                        {{-- Section: Detail --}}
                         <div class="bg-white border border-sky-100 rounded-2xl shadow-sm p-6 sm:p-7 space-y-5">
                             <div class="flex items-center gap-2.5">
                                 <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-sky-600 text-white text-xs font-bold">3</span>

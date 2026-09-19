@@ -16,7 +16,6 @@
     <div class="py-10 print:py-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 print:px-0 print:max-w-none space-y-6 print:space-y-3">
 
-            {{-- Kop cetak: hanya tampil saat print --}}
             <div class="hidden print:flex items-center gap-4 pb-3 border-b-2 border-black">
                 <img src="{{ asset('images/logo-klaten.png') }}" alt="Logo Kabupaten Klaten" class="h-16 w-auto object-contain">
                 <div>
@@ -32,7 +31,6 @@
                 tahun {{ $tahun }}, jenis cuti: {{ $jenisCutiLabel }} &mdash; dikelompokkan per pegawai (NIP/nama).
             </p>
 
-            {{-- Kartu ringkasan --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 print:hidden">
                 <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-sky-600 to-sky-700 p-6 shadow-lg shadow-sky-600/20">
                     <div class="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10"></div>
@@ -70,7 +68,6 @@
                 </button>
             </div>
 
-            {{-- Daftar pegawai (tampilan layar, dipaginasi) --}}
             <div class="print:hidden">
                 @include('cuti.partials.rekapitulasi-detail-table', ['rows' => $rows])
             </div>
@@ -79,7 +76,6 @@
                 {{ $rows->onEachSide(1)->links() }}
             </div>
 
-            {{-- Daftar pegawai (versi cetak, seluruh pegawai tanpa paginasi) --}}
             <div class="hidden print:block">
                 @include('cuti.partials.rekapitulasi-detail-table', ['rows' => $allRows])
             </div>

@@ -193,11 +193,9 @@
         </div>
 
         @if (Auth::user()->isAdmin())
-            {{-- Overlay --}}
             <div x-show="modal !== null" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
                 <div class="fixed inset-0 bg-slate-900/50" @click="closeModal()"></div>
 
-                {{-- Modal: Non Aktifkan --}}
                 <form x-show="modal === 'nonaktifkan'" x-cloak method="POST"
                       :action="'{{ url('pegawai') }}/' + nip + '/nonaktifkan'"
                       class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
@@ -233,7 +231,6 @@
                     </div>
                 </form>
 
-                {{-- Modal: Aktifkan Kembali --}}
                 <form x-show="modal === 'aktifkan'" x-cloak method="POST"
                       :action="'{{ url('pegawai') }}/' + nip + '/aktifkan'"
                       class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
@@ -269,7 +266,6 @@
                     </div>
                 </form>
 
-                {{-- Modal: Mutasi --}}
                 <form x-show="modal === 'mutasi'" x-cloak method="POST"
                       :action="'{{ url('pegawai') }}/' + nip + '/mutasi'"
                       class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4 max-h-[90vh] overflow-y-auto">

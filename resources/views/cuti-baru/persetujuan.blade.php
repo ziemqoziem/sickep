@@ -102,7 +102,6 @@
             {{ $tahapList->links() }}
         </div>
 
-        {{-- Modal: Setujui / Tolak --}}
         <div x-show="modal !== null" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display: none;">
             <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" @click="closeModal()"
                  x-show="modal !== null" x-transition.opacity></div>
